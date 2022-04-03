@@ -52,14 +52,15 @@ create table `employee`(
 -- create order_item table
 drop table if exists `order_item`;
 create table `order_item`(
-	`item_no` int primary key auto_increment,
+	`item_no` int auto_increment,
     `item_quantity` int not null,
     `item_amount` float not null,
     `item_price` float not null,
     `order_order_id` int,
     `book_book_id` int not null,
     foreign key (order_order_id) references `order`(order_id),
-    foreign key (book_book_id) references book(book_id)
+    foreign key (book_book_id) references book(book_id),
+    primary key (`item_no`,`order_order_id`)
     );
 
 -- create book table
@@ -87,7 +88,8 @@ create table `author_book`(
 	`book_book_id` int,
     `aut_aut_id` int,
     foreign key (book_book_id) references book(book_id),
-    foreign key (aut_aut_id) references author(aut_id)
+    foreign key (aut_aut_id) references author(aut_id),
+    primary key (`book_book_id`,`aut_aut_id`)
     );
 
 -- create author table
@@ -102,12 +104,13 @@ create table `author`(
 -- create book_inflow table
 drop table if exists `book_inflow`;
 create table `book_inflow`(
-	`inflow_no` int primary key auto_increment,
+	`inflow_no` int auto_increment,
     `inflow_price` float not null,
     `inflow_amount` int not null,
     `inflow_date` date not null,
     `book_book_id` int,
     `publisher_pub_id` int not null,
+    primary key (`inflow_no`,`book_book_id`),
     foreign key (book_book_id) references book(book_id),
     foreign key (publisher_pub_id) references publisher(pub_id)
     );
@@ -119,4 +122,15 @@ create table `publisher`(
     `pub_name` varchar(255) not null unique,
     `pub_phone` char(10) not null,
     `pub_url` varchar(255) unique
+    );
+    
+-- create book_employee table (bridge)
+drop table if exists `book_employee`;
+create table `book_employee`(
+	`employee_emp_id` int,
+    `book_book_id` int,
+    `datetime` datetime not null,
+    primary key (`employee_emp_id`,`book_book_id`),
+    foreign key (employee_emp_id) references employee(emp_id),
+    foreign key (book_book_id) references book(book_id)
     );
