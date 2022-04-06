@@ -1,9 +1,9 @@
 insert into `book` (book_title, book_price, book_amount, book_type, book_cover)
-values ('ฆาตกรรมเกาะเจ้าหญิง', 290, 50, 1, '/images/Type_1/1.jpg'),
-('นักสืบสื่อวิญญาณ', 355, 50, 1, '/images/Type_1/2.jpg'),
-('ด้ายแห่งความหวัง', 319, 50, 1, '/images/Type_1/3.jpg'),
-('ห้วงเหวนั้นไซร้ยากแท้หยั่งถึง', 285, 50, 1, '/images/Type_1/4.jpg'),
-('นกกระจกไม่หวนคืน', 329, 50, 1, '/images/Type_1/5.jpg');
+values ('ฆาตกรรมเกาะเจ้าหญิง', 290, 50, 1, '/images/Type_1/ฆาตกรรมเกาะเจ้าหญิง-1.jpg'),
+('นักสืบสื่อวิญญาณ', 355, 50, 1, '/images/Type_1/นักสืบสื่อวิญญาณ-2.jpg'),
+('ด้ายแห่งความหวัง', 319, 50, 1, '/images/Type_1/ด้ายแห่งความหวัง-3.jpg'),
+('ห้วงเหวนั้นไซร้ยากแท้หยั่งถึง', 285, 50, 1, '/images/Type_1/ห้วงเหวนั้นไซร้ยากแท้หยั่งถึง-4.jpg'),
+('นกกระจกไม่หวนคืน', 329, 50, 1, '/images/Type_1/นกกระจกไม่หวนคืน-5.jpg');
 
 insert into `author` (aut_pen_name, aut_fname, aut_lname)
 values ('Uchida', 'Uchida', 'Yasuo'), 
