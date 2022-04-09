@@ -120,7 +120,7 @@ drop table if exists `publisher`;
 create table `publisher`(
 	`pub_id` int primary key auto_increment,
     `pub_name` varchar(255) not null unique,
-    `pub_phone` char(10) not null,
+    `pub_phone` char(10),
     `pub_url` varchar(255) unique
     );
     
