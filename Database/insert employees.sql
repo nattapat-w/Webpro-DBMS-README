@@ -1,6 +1,6 @@
 
 insert into employee
-value 	(1,'กนกนันทร์','สุเชาว์อินทร์','0811617970','SKanoknun','Shoppass1')
+values 	(1,'กนกนันทร์','สุเชาว์อินทร์','0811617970','SKanoknun','Shoppass1')
         (2,'กมลชญา','ประเสริฐสิน','0873668880','PKamonchaya','Shoppass2')
         (3,'เกรียงไกร','ปัญญาพงศธร','0849149827','PKringkrai','Shoppass3')
         (4,'โกวิทย์','พิทยาบูรณ์','0864702511','PKowit','Shoppass4')
