@@ -8,8 +8,8 @@ values
 
 insert into `author` (aut_pen_name, aut_fname, aut_lname)
 values
-(null, 'ธีระวุฒิ', 'ปัญญา'), 
-(null, 'ไรวินท์', 'รมย์ธีรา'),
+('ธีระวุฒิ ปัญญา', 'ธีระวุฒิ', 'ปัญญา'), 
+('ไรวินท์ รมย์ธีรา', 'ไรวินท์', 'รมย์ธีรา'),
 ('MADAME GURU', null, null);
 
 insert into `publisher` (pub_name, pub_phone, pub_url)
@@ -30,15 +30,13 @@ values
 
 insert into `author` (aut_pen_name, aut_fname, aut_lname)
 values
-(null, 'จักรภพ', 'อินทรวงศ์'), 
+('จักรภพ อินทรวงศ์', 'จักรภพ', 'อินทรวงศ์'), 
 ('Speaker', null, null),
-(null, 'Guy', 'Raz'),
-(null, 'นีน่า', 'คิม');
+('GuyRaz', 'Guy', 'Raz'),
+('นีน่า คิม', 'นีน่า', 'คิม');
 
 insert into `publisher` (pub_name, pub_phone, pub_url)
 values
-('7D BOOK', '0832663956', 'https://www.7dbookanddigital.com/'),
-('About book', '0984539366', 'https://www.facebook.com/aboutbookpublishing/'),
 ('เนชั่นบุ๊คส์', '020915922', 'https://www.facebook.com/NationBooksFanPage/'),
 ('Bloom', 0909096478, 'https://www.facebook.com/Bloomread/');
 
@@ -53,12 +51,13 @@ values
 
 insert into `author` (aut_pen_name, aut_fname, aut_lname)
 values
-(null, 'Max', 'Gunther'), 
-(null, 'จิตร', 'ภูมิศักดิ์'),
-(null, 'เกียรติรัตน์', 'จินดามณี');
+('Max Gunther', 'Max', 'Gunther'), 
+('จิตร ภูมิศักดิ์', 'จิตร', 'ภูมิศักดิ์'),
+('เกียรติรัตน์ จินดามณี', 'เกียรติรัตน์', 'จินดามณี');
 
 insert into `publisher` (pub_name, pub_phone, pub_url)
 values
-('วารา', '0897438888', 'https://www.facebook.com/WaraPublishing/'),
 ('แอร์โรว์ มัลติมีเดีย', '025736572', 'https://www.facebook.com/arrowclassicbooks/'),
 ('MD', null, null);
+
+
