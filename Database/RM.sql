@@ -53,8 +53,8 @@ drop table if exists `order_item`;
 create table `order_item`(
 	`item_no` int auto_increment,
     `item_quantity` int not null,
-    `item_amount` float not null default(0),
-    `item_price` float not null default(0),
+    `item_amount` float not null,
+    `item_price` float not null,
     `order_order_id` int,
     `book_book_id` int not null,
     foreign key (order_order_id) references `order`(order_id),

@@ -1,4 +1,4 @@
--- แสดงนามปากกาผู้แต่งหนังสือ จำนวนหนังสือที่ขายได้และยอดขายหนังสือของแต่ละคน เรียงลำดับยอดขายจากมากไปน้อย
+-- รายงานแสดงจำนวนหนังสือและยอดขายหนังสือของผู้แต่งหนังสือแต่ละคน
 
 select aut_pen_name as `Pen Name`, sum(item_quantity) as `Book Sold`, sum(item_amount) as `Sold Amount`
 from author a 
