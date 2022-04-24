@@ -32,7 +32,7 @@ const loginSchema = Joi.object({
             try {
                 // Check if username is correct
                 const [users] = await conn.query(
-                    'SELECT * FROM users WHERE username=?', 
+                    'SELECT * FROM customer WHERE cust_uname=?', 
                     [username]
                 )
                 const user = users[0]
@@ -82,7 +82,7 @@ const passwordValidator = (value, helpers) => {
 }
 
 const usernameValidator = async (value, helpers) => {
-    const [rows, _] = await pool.query("SELECT username FROM users WHERE username = ?", [value])
+    const [rows, _] = await pool.query("SELECT cust_uname FROM customer WHERE cust_uname = ?", [value])
     if (rows.length > 0) {
         const message = 'This username is already taken'
         throw new Joi.ValidationError(message, { message })
@@ -91,7 +91,6 @@ const usernameValidator = async (value, helpers) => {
 }
 
 const signupSchema = Joi.object({
-    email: Joi.string().required().email(),
     mobile: Joi.string().required().pattern(/0[0-9]{9}/),
     first_name: Joi.string().required().max(150),
     last_name: Joi.string().required().max(150),
@@ -114,13 +113,12 @@ router.post('/user/signup', async (req, res, next) => {
     const password = await bcrypt.hash(req.body.password, 5)
     const first_name = req.body.first_name
     const last_name = req.body.last_name
-    const email = req.body.email
     const mobile = req.body.mobile
 
     try {
         await conn.query(
-            'INSERT INTO users(username, password, first_name, last_name, email, mobile) VALUES (?, ?, ?, ?, ?, ?)',
-            [username, password, first_name, last_name, email, mobile]
+            'INSERT INTO customer(cust_uname, cust_pwd, cust_fname, cust_lname, cust_phone) VALUES (?, ?, ?, ?, ?, ?)',
+            [username, password, first_name, last_name, mobile]
         )
         conn.commit()
         res.status(201).send()

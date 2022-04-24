@@ -4,7 +4,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link to="/" class="navbar-item is-size-4">
-          YouBlog
+          README
         </router-link>
 
         <a

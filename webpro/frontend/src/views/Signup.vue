@@ -84,27 +84,6 @@
           </div>
 
           <div class="field">
-            <label class="label">Email</label>
-            <div class="control has-icons-left has-icons-right">
-              <input
-                v-model="$v.email.$model"
-                :class="{ 'is-danger': $v.email.$error }"
-                class="input"
-                type="text"
-              />
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
-            </div>
-            <template v-if="$v.email.$error">
-              <p class="help is-danger" v-if="!$v.email.required">
-                This field is required
-              </p>
-              <p class="help is-danger" v-if="!$v.email.email">Invalid Email</p>
-            </template>
-          </div>
-
-          <div class="field">
             <label class="label">Mobile Number</label>
             <div class="control has-icons-left has-icons-right">
               <input
@@ -174,7 +153,6 @@
 import axios from '@/plugins/axios'
 import {
   required,
-  email,
   helpers,
   minLength,
   maxLength,
@@ -198,7 +176,6 @@ export default {
       username: "",
       password: "",
       confirm_password: "",
-      email: "",
       mobile: "",
       first_name: "",
       last_name: "",
@@ -215,7 +192,6 @@ export default {
           username: this.username,
           password: this.password,
           confirm_password: this.confirm_password,
-          email: this.email,
           mobile: this.mobile,
           first_name: this.first_name,
           last_name: this.last_name,
@@ -233,10 +209,6 @@ export default {
     },
   },
   validations: {
-    email: {
-      required: required,
-      email: email,
-    },
     mobile: {
       required: required,
       mobile: mobile,

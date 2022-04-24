@@ -2,13 +2,13 @@
   <div class="container is-widescreen">
     <section class="hero">
       <div class="hero-body">
-        <p class="title">My Stories</p>
+        <p class="title">Book</p>
         <div class="columns">
           <div class="column is-half">
-            <input class="input" type="text" v-model="search" placeholder="Search blog(s)" />
+            <input class="input" type="text" v-model="search" placeholder="Search book(s)" />
           </div>
           <div class="column is-half">
-            <button @click="getBlogs" class="button">Search</button>
+            <button @click="getBooks" class="button">Search</button>
           </div>
         </div>
       </div>
@@ -16,40 +16,35 @@
     <section class="section" id="app">
       <div class="content">
         <div class="columns is-multiline">
-          <div class="column is-3" v-for="blog in blogs" :key="blog.id">
+          <div class="column is-3" v-for="book in books" :key="book.book_id">
             <div class="card">
               <div class="card-image pt-5">
                 <figure class="image">
                   <img
-                    style="height: 120px"
-                    :src="imagePath(blog.file_path)"
+                    style="height: 400px"
+                    :src="imagePath(book.book_cover)"
                     alt="Placeholder image"
                   />
                 </figure>
               </div>
               <div class="card-content">
-                <div class="title">{{ blog.title }}</div>
-                <div class="content" style="height: 200px;">{{ shortContent(blog.content) }}</div>
+                <div class="title">{{ book.book_title }}</div>
+                <!-- <div class="content" style="height: 30px;">{{ shortContent(book.book_price) }}</div> -->
               </div>
               <footer class="card-footer">
-                <router-link class="card-footer-item" :to="`/blogs/detail/${blog.id}`">Read more...</router-link>
-                <a class="card-footer-item" @click="addLike(blog.id)">
-                  <span class="icon-text">
-                    <span class="icon">
-                      <i class="far fa-heart"></i>
-                    </span>
-                    <span>Like ({{blog.like}})</span>
-                  </span>
+                <a class="card-footer-item">
+                    <router-link class="card-footer-item" :to="`/books/detail/${book.book_id}`">View Product</router-link>
                 </a>
-                <a
-                  v-if="isBlogOwner(blog)"
-                  class="card-footer-item"
-                  @click="$router.push({name:'update-blog',params:{id:blog.id}})"
-                >
+                <p class="card-footer-item">
+                  <span class="icon-text">
+                    <span>{{book.book_price}} บาท</span>
+                  </span>
+                </p>
+                 <!-- <a class="card-footer-item">
                   <span class="icon-text">
                     <span>Edit</span>
                   </span>
-                </a>
+                </a> -->
               </footer>
             </div>
           </div>
@@ -68,14 +63,14 @@ export default {
   data() {
     return {
       search: "",
-      blogs: [],
+      books: [],
     };
   },
   mounted() {
-    this.getBlogs();
+    this.getBooks();
   },
   methods: {
-    getBlogs() {
+    getBooks() {
       axios
         .get("http://localhost:3000", {
           params: {
@@ -83,7 +78,7 @@ export default {
           },
         })
         .then((response) => {
-          this.blogs = response.data;
+          this.books = response.data;
         })
         .catch((err) => {
           console.log(err);
