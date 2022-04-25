@@ -2,16 +2,7 @@
   <div>
     <div class="container is-fluid mt-5">
       <div class="columns is-centered">
-        <div class="column is-8">
-          <h1 class="title">Welcome</h1>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo quae
-            rem ipsum praesentium, tenetur doloremque libero. Fugit, dolore
-            possimus molestias cupiditate iste deserunt! Aut aliquid rem quas
-            consequatur non iste.
-          </p>
-        </div>
-        <div class="column is-4">
+        <div class="column is-5">
           <h1 class="title">Sign Up</h1>
           <!-- Sign up form -->
           <div class="field">
@@ -140,9 +131,43 @@
             </template>
           </div>
 
-          <button class="button is-primary is-fullwidth" @click="submit()">Sign Up</button>
+          <div class="field">
+            <label class="label">Address</label>
+            <div class="control has-icons-left has-icons-right">
+              <input
+                v-model="$v.address.$model"
+                :class="{ 'is-danger': $v.address.$error }"
+                class="input"
+                type="text"
+              />
+            </div>
+            <template v-if="$v.address.$error">
+              <p class="help is-danger" v-if="!$v.address.required">
+                This field is required
+              </p>
+            </template>
+          </div>
 
-          <p class="my-3">Already have an account? <a href="#">Login</a></p>
+          <div class="field">
+            <label class="label">Portal code</label>
+            <div class="control has-icons-left has-icons-right">
+              <input
+                v-model="$v.pcode.$model"
+                :class="{ 'is-danger': $v.pcode.$error }"
+                class="input"
+                type="text"
+              />
+            </div>
+            <template v-if="$v.pcode.$error">
+              <p class="help is-danger" v-if="!$v.pcode.required">
+                This field is required
+              </p>
+            </template>
+          </div>
+
+          <button class="button is-primary is-fullwidth mt-5" @click="submit()">Sign Up</button>
+
+          <p class="my-3">Already have an account? <a href="/#/user/login">Login</a></p>
         </div>
       </div>
     </div>
@@ -179,6 +204,8 @@ export default {
       mobile: "",
       first_name: "",
       last_name: "",
+      address: "",
+      pcode: ""
     };
   },
   methods: {
@@ -192,6 +219,8 @@ export default {
           username: this.username,
           password: this.password,
           confirm_password: this.confirm_password,
+          address: this.address,
+          pcode: this.pcode,
           mobile: this.mobile,
           first_name: this.first_name,
           last_name: this.last_name,
@@ -231,6 +260,13 @@ export default {
     },
     last_name: {
       required: required,
+    },
+    address: {
+      required: required,
+    },
+    pcode: {
+      required: required,
+      minLength: minLength(5),
     },
   },
 };

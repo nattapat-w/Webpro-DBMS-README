@@ -2,10 +2,10 @@
   <div class="container is-widescreen">
     <section class="hero">
       <div class="hero-body">
-        <p class="title">Book</p>
+        <p class="title-1 mb-5">ALL BOOK</p>
         <div class="columns">
           <div class="column is-half">
-            <input class="input" type="text" v-model="search" placeholder="Search book(s)" />
+            <input class="input" type="text" v-model="search" placeholder="ค้นหาชื่อหนังสือ" />
           </div>
           <div class="column is-half">
             <button @click="getBooks" class="button">Search</button>
@@ -16,43 +16,62 @@
     <section class="section" id="app">
       <div class="content">
         <div class="columns is-multiline">
-          <div class="column is-3" v-for="book in books" :key="book.book_id">
+          <div class="column is-2" v-for="book in books" :key="book.book_id">
+            <!-- <router-link class="card" :to="`/books/detail/${book.book_id}`"> -->
             <div class="card">
-              <div class="card-image pt-5">
-                <figure class="image">
+              <div class="card-image pt-3">
+                <figure class="image" >
                   <img
-                    style="height: 400px"
                     :src="imagePath(book.book_cover)"
                     alt="Placeholder image"
                   />
                 </figure>
               </div>
               <div class="card-content">
-                <div class="title">{{ book.book_title }}</div>
+                <div class="title pb-3">{{ book.book_title }}</div>
+                <div class="subtitle is-6">ราคา: {{book.book_price}} บาท<br>
+                สินค้าคงเหลือ: {{book.book_amount}} ชิ้น</div>
                 <!-- <div class="content" style="height: 30px;">{{ shortContent(book.book_price) }}</div> -->
               </div>
               <footer class="card-footer">
-                <a class="card-footer-item">
+                <a class="card-footer-item p-0">
                     <router-link class="card-footer-item" :to="`/books/detail/${book.book_id}`">View Product</router-link>
                 </a>
-                <p class="card-footer-item">
-                  <span class="icon-text">
-                    <span>{{book.book_price}} บาท</span>
-                  </span>
-                </p>
-                 <!-- <a class="card-footer-item">
+                 <a v-if="isAdmin()" class="card-footer-item">
                   <span class="icon-text">
                     <span>Edit</span>
                   </span>
-                </a> -->
+                </a>
               </footer>
             </div>
+            <!-- </router-link> -->
           </div>
         </div>
       </div>
     </section>
   </div>
 </template>
+
+<style scoped>
+.card:hover {
+  box-shadow: 1px 1px 8px 1px #545454;
+  cursor: pointer;
+}
+.image{
+  transition: transform .2s;
+}
+.title{
+  font-size: 20px;
+}
+.title-1{
+  font-size: 50px;
+  font-weight: bold;
+  color: black;
+}
+.image{
+  background-size: cover;
+}
+</style>
 
 <script>
 import axios from '@/plugins/axios'
@@ -108,13 +127,13 @@ export default {
           console.log(err);
         });
     },
-    isBlogOwner(blog) {
-      // console.log(blog.create_by_id);
+    isAdmin() { //เช็คว่าเป็น admin ไหม
        if (!this.user) return false
-        if (this.user.role === "admin"){  //ทำให้ admin มองเห็นปุ่ม delete blog
+        if (this.user.cust_uname === "admin3"){  //ทำให้ชื่อ admin3 มองเห็นปุ่ม edit  password:Aa123456
          return true
-       } else{
-       return blog.create_by_id === this.user.id
+       }
+       else{
+         return false
        }
      }
   },

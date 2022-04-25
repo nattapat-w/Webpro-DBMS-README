@@ -21,10 +21,44 @@
       </div>
 
       <div class="navbar-menu">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            หมวดหมู่
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item">
+              สยองขวัญ
+              </a>
+            <a class="navbar-item">
+              นิยาย
+              </a>
+            <a class="navbar-item">
+              การ์ตูน
+              </a>
+            <a class="navbar-item">
+              การศึกษา
+              </a>
+            <a class="navbar-item">
+              ท่องเที่ยว
+              </a>
+            <a class="navbar-item">
+              ประวัติศาสตร์
+              </a>
+            <a class="navbar-item">
+              สุขภาพ
+              </a>
+            <a class="navbar-item">
+              จิตวิทยา
+              </a>
+            <a class="navbar-item">
+              ธุรกิจ
+              </a>
+          </div>
+        </div>
         <div class="navbar-end">
           <div v-if="user" class="navbar-item">
-            <router-link to="/blogs/create" class="button is-primary">
-              <strong>New Blog</strong>
+            <router-link to="/books/create" class="button is-primary">
+              <strong>Add Book</strong>
             </router-link>
           </div>
           <div v-if="user" class="navbar-item has-dropdown is-hoverable">
@@ -32,7 +66,7 @@
               <figure class="image is-24x24 my-auto">
                 <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
               </figure>
-              <span class="pl-3">{{ user.first_name }} {{ user.last_name }}</span>
+              <span class="pl-3">{{ user.cust_fname }} {{ user.cust_lname }}</span>
             </a>
             <div class="navbar-dropdown">
               <a class="navbar-item">Profile</a>

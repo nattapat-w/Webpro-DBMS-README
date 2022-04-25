@@ -1,17 +1,8 @@
 <template>
-  <div class="container is-fluid mt-5">
+  <div class="container is-fluid mt-6">
     <div class="columns is-centered">
-      <div class="column is-8">
-        <h1 class="title">Welcome</h1>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo quae
-          rem ipsum praesentium, tenetur doloremque libero. Fugit, dolore
-          possimus molestias cupiditate iste deserunt! Aut aliquid rem quas
-          consequatur non iste.
-        </p>
-      </div>
 
-      <div class="column is-4">
+      <div class="column is-5">
         <h1 class="title">Log in</h1>
 
         <p
@@ -45,12 +36,12 @@
           </div>
         </div>
 
-        <button class="button is-primary is-fullwidth" @click="submit">
+        <button class="button is-primary is-fullwidth mt-4" @click="submit">
           Login
         </button>
 
         <p class="my-3">
-          Don't have an account yet? <a href="/signup.html">Sign up</a>
+          Don't have an account yet? <a href="/#/user/signup">Sign up</a>
         </p>
       </div>
     </div>

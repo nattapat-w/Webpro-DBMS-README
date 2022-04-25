@@ -11,7 +11,7 @@ router.get("/", async function (req, res, next) {
 
     if (search.length > 0) {
       sql = 'SELECT * from book WHERE book.book_title LIKE ?;'
-      cond = [`%${search}%`, `%${search}%`]
+      cond = [`%${search}%`]
     }
     const [rows, fields] = await pool.query(sql, cond);
     return res.json(rows);

@@ -26,6 +26,12 @@ const routes = [
     name: 'detail',
     component: () => import('../views/books/DetailBook.vue')
   },
+  {
+    path: '/books/create',
+    name: 'create-book',
+    meta: { login: true },
+    component: () => import('../views/books/CreateBook.vue')
+  },
 ]
 
 const router = new VueRouter({ routes })

@@ -25,7 +25,6 @@ const loginSchema = Joi.object({
             }
             const username = req.body.username
             const password = req.body.password
-        
             const conn = await pool.getConnection()
             await conn.beginTransaction()
         
@@ -36,19 +35,19 @@ const loginSchema = Joi.object({
                     [username]
                 )
                 const user = users[0]
-                if (!user) {    
+                if (!user) {
                     throw new Error('Incorrect username or password')
                 }
         
                 // Check if password is correct
-                if (!(await bcrypt.compare(password, user.password))) {
+                if (!(await bcrypt.compare(password, user.cust_pwd))) {
                     throw new Error('Incorrect username or password')
                 }
         
                 // Check if token already existed
                 const [tokens] = await conn.query(
                     'SELECT * FROM tokens WHERE user_id=?', 
-                    [user.id]
+                    [user.cust_id]
                 )
                 let token = tokens[0]?.token
                 if (!token) {
@@ -56,7 +55,7 @@ const loginSchema = Joi.object({
                     token = generateToken()
                     await conn.query(
                         'INSERT INTO tokens(user_id, token) VALUES (?, ?)', 
-                        [user.id, token]
+                        [user.cust_id, token]
                     )
                 }
         
@@ -97,6 +96,8 @@ const signupSchema = Joi.object({
     password: Joi.string().required().custom(passwordValidator),
     confirm_password: Joi.string().required().valid(Joi.ref('password')),
     username: Joi.string().required().min(5).max(20).external(usernameValidator),
+    address: Joi.string().required().max(150),
+    pcode: Joi.string().required().min(5)
 })
 
 router.post('/user/signup', async (req, res, next) => {
@@ -113,12 +114,14 @@ router.post('/user/signup', async (req, res, next) => {
     const password = await bcrypt.hash(req.body.password, 5)
     const first_name = req.body.first_name
     const last_name = req.body.last_name
+    const address = req.body.address
+    const pcode = req.body.pcode
     const mobile = req.body.mobile
 
     try {
         await conn.query(
-            'INSERT INTO customer(cust_uname, cust_pwd, cust_fname, cust_lname, cust_phone) VALUES (?, ?, ?, ?, ?, ?)',
-            [username, password, first_name, last_name, mobile]
+            'INSERT INTO customer(cust_uname, cust_pwd, cust_fname, cust_lname, cust_phone, cust_addr, cust_pcode, cust_member)VALUES (?, ?, ?, ?, ?, ?, ?, 0)',
+            [username, password, first_name, last_name, mobile, address, pcode]
         )
         conn.commit()
         res.status(201).send()
