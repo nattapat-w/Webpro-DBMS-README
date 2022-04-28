@@ -22,9 +22,20 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/user/me',
+    name: 'profile',
+    meta: { login: true },
+    component: () => import('../views/Profile.vue')
+  },
+  {
     path: '/books/detail/:id',
     name: 'detail',
     component: () => import('../views/books/DetailBook.vue')
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: () => import('../views/Checkout.vue')
   },
   {
     path: '/books/create',

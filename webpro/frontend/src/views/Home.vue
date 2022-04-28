@@ -5,7 +5,7 @@
         <p class="title-1 mb-5">ALL BOOK</p>
         <div class="columns">
           <div class="column is-half">
-            <input class="input" type="text" v-model="search" placeholder="ค้นหาชื่อหนังสือ" />
+            <input class="input" type="text" v-model="search" placeholder="ค้นหาหนังสือ" />
           </div>
           <div class="column is-half">
             <button @click="getBooks" class="button">Search</button>
@@ -55,10 +55,10 @@
 <style scoped>
 .card:hover {
   box-shadow: 1px 1px 8px 1px #545454;
-  cursor: pointer;
 }
 .image{
   transition: transform .2s;
+  background-size: cover;
 }
 .title{
   font-size: 20px;
@@ -67,9 +67,6 @@
   font-size: 50px;
   font-weight: bold;
   color: black;
-}
-.image{
-  background-size: cover;
 }
 </style>
 

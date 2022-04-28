@@ -57,6 +57,11 @@
         </div>
         <div class="navbar-end">
           <div v-if="user" class="navbar-item">
+            <router-link to="/checkout" class="button is-primary">
+              <strong>Cart ({{this.cart.reduce((total, curr) => (total = total + (parseInt(curr.quantity))), 0)}})</strong>
+            </router-link>
+          </div>
+          <div v-if="user" class="navbar-item">
             <router-link to="/books/create" class="button is-primary">
               <strong>Add Book</strong>
             </router-link>
@@ -69,7 +74,9 @@
               <span class="pl-3">{{ user.cust_fname }} {{ user.cust_lname }}</span>
             </a>
             <div class="navbar-dropdown">
+              <router-link :to="`/user/me`">
               <a class="navbar-item">Profile</a>
+              </router-link>
               <a class="navbar-item">Log out</a>
             </div>
           </div>
@@ -88,16 +95,18 @@
       </div>
     </nav>
     
-    <router-view :key="$route.fullPath" @auth-change="onAuthChange" :user="user" />
+    <router-view :key="$route.fullPath" @auth-change="onAuthChange" :user="user" :cart="cart" />
   </div>
 </template>
-
+<style scoped>
+</style>
 <script>
 import axios from "@/plugins/axios";
 export default {
   data () {
     return {
-      user: null
+      user: null,
+      cart: [],
     }
   },
    mounted () {
