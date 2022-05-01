@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div class="container is-fluid mt-5">
+    <div class="container is-fluid mt-6">
       <div class="columns is-centered">
         <div class="column is-5">
-          <h1 class="title">Sign Up</h1>
+          <h1 class="title has-text-centered">สมัครสมาชิก</h1>
           <!-- Sign up form -->
           <div class="field">
-            <label class="label">Username</label>
+            <label class="label">ชื่อผู้ใช้งาน / Username</label>
             <div class="control has-icons-left">
               <input
                 v-model="$v.username.$model"
                 :class="{ 'is-danger': $v.username.$error }"
                 class="input"
-                type="text"
+                type="text" placeholder="ชื่อผู้ใช้งาน"
               />
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
@@ -29,13 +29,13 @@
           </div>
 
           <div class="field">
-            <label class="label">Password</label>
+            <label class="label">รหัสผ่าน / Password</label>
             <div class="control has-icons-left has-icons-right">
               <input
                 v-model="$v.password.$model"
                 :class="{ 'is-danger': $v.password.$error }"
                 class="input"
-                type="password"
+                type="password" placeholder="รหัสผ่าน"
               />
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
@@ -55,13 +55,13 @@
           </div>
 
           <div class="field">
-            <label class="label">Confirm Password</label>
+            <label class="label">ยืนยันรหัสผ่าน / Confirm Password</label>
             <div class="control has-icons-left has-icons-right">
               <input
                 v-model="$v.confirm_password.$model"
                 :class="{ 'is-danger': $v.confirm_password.$error }"
                 class="input"
-                type="password"
+                type="password" placeholder="ยืนยันรหัสผ่าน"
               />
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
@@ -75,13 +75,53 @@
           </div>
 
           <div class="field">
-            <label class="label">Mobile Number</label>
+            <label class="label">ชื่อ / First Name</label>
+            <div class="control has-icons-left has-icons-right">
+              <input
+                v-model="$v.first_name.$model"
+                :class="{ 'is-danger': $v.first_name.$error }"
+                class="input"
+                type="text" placeholder="ชื่อ"
+              />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-info-circle"></i>
+                </span>
+            </div>
+            <template v-if="$v.first_name.$error">
+              <p class="help is-danger" v-if="!$v.first_name.required">
+                This field is required
+              </p>
+            </template>
+          </div>
+
+          <div class="field">
+            <label class="label">นามสกุล / Last Name</label>
+            <div class="control has-icons-left has-icons-right">
+              <input
+                v-model="$v.last_name.$model"
+                :class="{ 'is-danger': $v.last_name.$error }"
+                class="input"
+                type="text" placeholder="นามสกุล"
+              />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-info-circle"></i>
+                </span>
+            </div>
+            <template v-if="$v.last_name.$error">
+              <p class="help is-danger" v-if="!$v.last_name.required">
+                This field is required
+              </p>
+            </template>
+          </div>
+
+          <div class="field">
+            <label class="label">เบอร์โทรศัพท์ / Mobile Number</label>
             <div class="control has-icons-left has-icons-right">
               <input
                 v-model="$v.mobile.$model"
                 :class="{ 'is-danger': $v.mobile.$error }"
                 class="input"
-                type="text"
+                type="text" placeholder="เบอร์โทรศัพท์"
               />
               <span class="icon is-small is-left">
                 <i class="fas fa-mobile"></i>
@@ -98,48 +138,17 @@
           </div>
 
           <div class="field">
-            <label class="label">First Name</label>
-            <div class="control has-icons-left has-icons-right">
-              <input
-                v-model="$v.first_name.$model"
-                :class="{ 'is-danger': $v.first_name.$error }"
-                class="input"
-                type="text"
-              />
-            </div>
-            <template v-if="$v.first_name.$error">
-              <p class="help is-danger" v-if="!$v.first_name.required">
-                This field is required
-              </p>
-            </template>
-          </div>
-
-          <div class="field">
-            <label class="label">Last Name</label>
-            <div class="control has-icons-left has-icons-right">
-              <input
-                v-model="$v.last_name.$model"
-                :class="{ 'is-danger': $v.last_name.$error }"
-                class="input"
-                type="text"
-              />
-            </div>
-            <template v-if="$v.last_name.$error">
-              <p class="help is-danger" v-if="!$v.last_name.required">
-                This field is required
-              </p>
-            </template>
-          </div>
-
-          <div class="field">
-            <label class="label">Address</label>
+            <label class="label">ที่อยู่ / Address</label>
             <div class="control has-icons-left has-icons-right">
               <input
                 v-model="$v.address.$model"
                 :class="{ 'is-danger': $v.address.$error }"
                 class="input"
-                type="text"
+                type="text" placeholder="ที่อยู่"
               />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-home"></i>
+                </span>
             </div>
             <template v-if="$v.address.$error">
               <p class="help is-danger" v-if="!$v.address.required">
@@ -149,14 +158,17 @@
           </div>
 
           <div class="field">
-            <label class="label">Portal code</label>
+            <label class="label">รหัสไปรษรีย์ / Portal code</label>
             <div class="control has-icons-left has-icons-right">
               <input
                 v-model="$v.pcode.$model"
                 :class="{ 'is-danger': $v.pcode.$error }"
                 class="input"
-                type="text"
+                type="text" placeholder="รหัสไปรษรีย์"
               />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-home"></i>
+                </span>
             </div>
             <template v-if="$v.pcode.$error">
               <p class="help is-danger" v-if="!$v.pcode.required">
@@ -165,15 +177,23 @@
             </template>
           </div>
 
-          <button class="button is-primary is-fullwidth mt-5" @click="submit()">Sign Up</button>
+          <button class="button is-fullwidth mt-5" @click="submit()">สมัครสมาชิก</button>
 
-          <p class="my-3">Already have an account? <a href="/#/user/login">Login</a></p>
+          <p class="my-3">มีบัญชีแล้ว ? <a href="/#/user/login">เข้าสู่ระบบ</a></p>
         </div>
       </div>
     </div>
   </div>
 </template>
-
+<style scoped>
+.button{
+  background-color: #304D63;
+  color: white;
+}
+.button:hover{
+  background-color: #243b4c;
+}
+</style>
 <script>
 import axios from '@/plugins/axios'
 import {

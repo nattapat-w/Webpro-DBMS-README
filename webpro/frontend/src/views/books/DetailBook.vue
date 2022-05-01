@@ -1,22 +1,29 @@
 <template>
   <section class="hero">
-    <div class="hero-body"></div>
-    <div class="columns">
-      <div class="column">
+    <div class="columns mt-6">
+      <div class="column is-1">
+      </div>
+      <div class="column is-3">
         <figure class="image">
           <img
             :src="'http://localhost:3000/' + book.book_cover"
             alt="Placeholder image"
-            style="width: 400px; height: 500px; margin-left: 150px"
           />
         </figure>
       </div>
-      <div class="column">
-        <p class="title">ชื่อหนังสือ: {{ book.book_title }}</p>
-        <p class="title">ราคา: {{ book.book_price }} บาท</p>
-        <p class="title">สินค้าคงเหลือ: {{ book.book_amount }} เล่ม</p>
-        <p class="title">หมวดหมู่: {{ book.type_name }}</p>
-        <div class="button is-success is-medium" @click="addToCart(book)">
+      <div class="column is-1">
+      </div>
+      <div class="column is-6" v-if="editToggle === false">
+      <div class="card">
+          <header class="card-header">
+            <p class="card-header-title is-centered">{{ book.book_title }}</p>
+          </header>
+        <div class="text">
+        <p class="title">ราคา : {{ book.book_price }} บาท</p>
+        <p class="title">สินค้าคงเหลือ : {{ book.book_amount }} เล่ม</p>
+        <p class="title">หมวดหมู่ : {{ book.type_name }}</p>
+        <p class="title">{{cartAmount}}</p>
+        <div class="button is-medium mt-3" @click="addToCart(book)" style="background-color: #8FB0AA;color:black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -32,15 +39,61 @@
           </svg>
           สั่งซื้อสินค้า
         </div>
+        <div class="button is-medium mt-3 ml-4 mb-6 is-danger" @click="editBook()">
+          แก้ไขข้อมูลหนังสือ
+        </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- แก้ไขหนังสือ -->
+      <div class="column is-6" v-if="editToggle === true">
+      <div class="card">
+          <header class="card-header">
+            <p class="card-header-title is-centered">
+              <input type="text" class="input ml-4 mr-2 is-large" style="width:70%" v-model="editBookTitle" placeholder="ชื่อหนังสือ" /> 
+            </p>
+          </header>
+        <div class="text">
+        <p class="title" style="display: inline" >ราคา : 
+        <input type="text" class="input ml-4 mr-2" style="width:30%" v-model="editBookPrice" placeholder="ราคาหนังสือ" /> บาท</p>
+        <p class="title">สินค้าคงเหลือ : 
+          <input type="text" class="input ml-4 mr-2" style="width:30%" v-model="editBookAmount" placeholder="จำนวนหนังสือ" /> เล่ม</p>
+        <p class="title">หมวดหมู่ : {{ book.type_name }}</p>
+        <div class="button is-medium mt-3 is-success" @click="saveEditBook(book.book_id)">
+          ยืนยัน
+        </div>
+        <div class="button is-medium mt-3 ml-4 mb-6 is-danger" @click="editToggle = false">
+          ยกเลิก
+        </div>
+        </div>
+      </div>
       </div>
     </div>
   </section>
 </template>
-<style>
+<style scoped>
 svg {
   margin-right: 8px;
 }
+.card-header-title{
+  font-size: 50px;
+  color: black;
+  background-color: #ED8975;
+}
 img {
+  box-shadow: 2px 3px 8px 1px #000000;
+}
+.input{
+  margin-bottom: 20px;
+  font-size: 30px;
+  line-height: 0px;
+  height: 1.5em;
+}
+.text{
+  margin: 20px;
+}
+.card{
   box-shadow: 2px 3px 8px 1px #000000;
 }
 </style>
@@ -53,12 +106,27 @@ export default {
     return {
       book: {},
       error: null,
+      editToggle: false,
+      editBookTitle: "",
+      editBookPrice: "",
+      editBookAmount: ""
     };
   },
   mounted() {
     this.getBookDetail(this.$route.params.id);
   },
+  computed: {
+    cartAmount() {
+      return this.book.quantity
+    }
+  },
   methods: {
+    editBook() {
+      this.editToggle = true
+      this.editBookTitle = this.book.book_title
+      this.editBookPrice = this.book.book_price
+      this.editBookAmount = this.book.book_amount
+    },
     getBookDetail(bookId) {
       axios
         .get(`http://localhost:3000/books/detail/${bookId}`)
@@ -69,13 +137,30 @@ export default {
           this.error = error.response.data.message;
         });
     },
+    saveEditBook(bookId) {
+      axios
+        .put(`http://localhost:3000/books/${bookId}`, {
+          book_title: this.editBookTitle,
+          book_price: this.editBookPrice,
+          book_amount: this.editBookAmount
+        })
+        .then((response) => {
+          this.book.book_title = response.data.book_title;
+          this.book.book_price = response.data.book_price;
+          this.book.book_amount = response.data.book_amount;
+          this.editToggle = false;
+        })
+        .catch((error) => {
+          this.error = error.message;
+        });
+    },
     addToCart(book) {
       if(book.quantity === undefined){
       book.quantity = 1
       this.cart.push(book)
       }
       else{
-        book.quantity += 1
+        this.book.quantity += 1
       }
     },
   },

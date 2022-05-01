@@ -3,7 +3,7 @@
     <div class="columns is-centered">
 
       <div class="column is-5">
-        <h1 class="title">Log in</h1>
+        <h1 class="title has-text-centered">เข้าสู่ระบบ</h1>
 
         <p
           v-if="error"
@@ -14,9 +14,9 @@
 
         <!-- Login form -->
         <div class="field">
-          <label class="label">Username</label>
+          <label class="label">ชื่อผู้ใช้งาน / Username</label>
           <div class="control has-icons-left">
-            <input v-model="username" class="input" type="text" />
+            <input v-model="username" class="input" type="text" placeholder="ชื่อผู้ใช้งาน"/>
             <span class="icon is-small is-left">
               <i class="fas fa-user"></i>
             </span>
@@ -24,9 +24,9 @@
         </div>
 
         <div class="field">
-          <label class="label">Password</label>
+          <label class="label">รหัสผ่าน / Password</label>
           <div class="control has-icons-left has-icons-right">
-            <input v-model="password" class="input" type="password" />
+            <input v-model="password" class="input" type="password" placeholder="รหัสผ่าน"/>
             <span class="icon is-small is-left">
               <i class="fas fa-lock"></i>
             </span>
@@ -36,19 +36,28 @@
           </div>
         </div>
 
-        <button class="button is-primary is-fullwidth mt-4" @click="submit">
-          Login
+        <button class="button is-fullwidth mt-4" @click="submit">
+         เข้าสู่ระบบ
         </button>
 
         <p class="my-3">
-          Don't have an account yet? <a href="/#/user/signup">Sign up</a>
+          ยังไม่มีบัญชี ? <a href="/#/user/signup">สร้างบัญชี</a>
         </p>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
-
+.button{
+  background-color: #304D63;
+  color: white;
+}
+.button:hover{
+  background-color: #243b4c;
+}
+.container{
+  height: 633px;
+}
 </style>
 <script>
 import axios from '@/plugins/axios'

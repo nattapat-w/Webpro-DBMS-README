@@ -10,11 +10,12 @@
       </div>
     </section>
     <section class="hero">
-      <div class="hero-body">
-        <p class="title">Create new Book</p>
+      <div class="hero-body" style="text-align: center">
+        <div class="title">เพิ่มหนังสือ</div>
       </div>
     </section>
-    <section class="px-6">
+     <div class="columns is-centered">
+    <div class="card mb-6 pl-3 pr-3 pt-2 pb-4" style="width:350px">
       <input
         class="mb-5"
         multiple
@@ -38,38 +39,55 @@
         </div>
       </div>
 
-      <div class="field mt-5">
-        <label class="label">Book Title</label>
+      <div class="field">
+        <label class="label">ชื่อหนังสือ</label>
         <div class="control">
           <input v-model="bookTitle" class="input" type="text" placeholder="ชื่อหนังสือ" />
         </div>
       </div>
-      <div class="field mt-5">
-        <label class="label">Book Price</label>
+      <div class="field">
+        <label class="label">ราคา</label>
         <div class="control">
           <input v-model="bookPrice" class="input" type="number" placeholder="ราคา" />
         </div>
       </div>
-      <div class="field mt-5">
-        <label class="label">Book Price</label>
+      <div class="field">
+        <label class="label">จำนวน</label>
         <div class="control">
           <input v-model="bookAmount" class="input" type="number" placeholder="สินค้าคงเหลือ" />
         </div>
       </div>
-
-
-      <div class="field is-grouped mt-5">
-        <div class="control">
-          <button @click="submitBook" class="button is-link">Submit</button>
-        </div>
-        <div class="control">
-          <button @click="$router.go(-1)" class="button is-link is-light">Cancel</button>
+    <div class="field">
+      <div class="label">เลือกหมวดหมู่</div>
+      <div class="control">
+        <div class="select">
+          <select>
+            <option>สยองขวัญ</option>
+          </select>
         </div>
       </div>
-    </section>
+    </div>
+
+      <div class="field is-grouped mt-2 is-pulled-right">
+        <div class="control">
+          <button @click="submitBook" class="button is-link">ยืนยัน</button>
+        </div>
+        <div class="control">
+          <button @click="$router.go(-1)" class="button is-link is-light">ยกเลิก</button>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
-
+<style scoped>
+.title{
+  font-size: 50px;
+}
+select {
+  font-family: "Kanit", sans-serif;
+}
+</style>
 <script>
 import axios from '@/plugins/axios'
 
@@ -105,7 +123,8 @@ export default {
       formData.append("status", "01");
       this.images.forEach((image) => {
         formData.append("myImage", image);
-      });
+      }
+      );
 
       // Note ***************
       // ตอนเรายิง Postmant จะใช้ fromData

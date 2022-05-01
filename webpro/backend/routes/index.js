@@ -6,7 +6,8 @@ router = express.Router();
 router.get("/", async function (req, res, next) {
   try {
     const search = req.query.search || ''
-    let sql = 'SELECT * from book'
+    let sql = "SELECT * FROM book b join type t on b.book_type = t.type_id"
+    //"SELECT * FROM book b join type t on b.book_type = t.type_id"
     let cond = []
 
     if (search.length > 0) {

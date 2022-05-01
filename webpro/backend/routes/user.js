@@ -12,6 +12,22 @@ router.get('/user/me', isLoggedIn, async (req, res, next) => {
         res.json(req.user)
     })
 
+router.put('/user/:custId', isLoggedIn, async function (req, res, next) {
+        try {
+            const [rows1, fields1] = await pool.query(
+                'UPDATE customer SET cust_fname=?, cust_lname=?, cust_phone=?, cust_addr=?, cust_pcode=? WHERE cust_id=?', 
+                [req.body.firstname, req.body.lastname, req.body.phone, req.body.address
+                , req.body.portal , req.params.custId]
+            )
+            console.log(rows1)
+            res.json({ username: req.body.username,  firstname: req.body.firstname, lastname: req.body.lastname,
+                phone: req.body.phone, address: req.body.address, portal: req.body.portal})
+            // res.json({ book_title: req.body.book_title,  book_price: req.body.book_price, book_amount: req.body.book_amount})
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    });
+    
 const loginSchema = Joi.object({
          username: Joi.string().required(),
          password: Joi.string().required()
@@ -120,7 +136,8 @@ router.post('/user/signup', async (req, res, next) => {
 
     try {
         await conn.query(
-            'INSERT INTO customer(cust_uname, cust_pwd, cust_fname, cust_lname, cust_phone, cust_addr, cust_pcode, cust_member)VALUES (?, ?, ?, ?, ?, ?, ?, 0)',
+            'INSERT INTO customer(cust_uname, cust_pwd, cust_fname, cust_lname, cust_phone, cust_addr, cust_pcode, cust_member)'+
+            'VALUES (?, ?, ?, ?, ?, ?, ?, 0)',
             [username, password, first_name, last_name, mobile, address, pcode]
         )
         conn.commit()
