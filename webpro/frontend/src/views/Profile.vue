@@ -1,7 +1,7 @@
 <template>
     <section class="hero">
       <div class="container is-fluid mt-6">
-          <div class="columns is-centered">
+          <div class="columns is-centered mb-5">
               <div class="card">
                   <header class="card-header">
                     <p class="card-header-title is-centered">
@@ -22,26 +22,18 @@
             <div class="p1">ที่อยู่ : {{user.cust_addr}}</div>
             <div class="p1">รหัสไปรษณีย์ : {{user.cust_pcode}}</div>
             <div class="p1" v-if="user.cust_member==0">การเป็นสมาชิก : ไม่เป็นสมาชิก</div>
-            <div class="p1" v-if="user.cust_member!=0">การเป็นสมาชิก : เป็นสมาชิก / แต้มสะสม : 50 แต้ม</div>
+            <div class="p1" v-if="user.cust_member!=0">การเป็นสมาชิก : เป็นสมาชิก / แต้มสะสม : {{user.point}} แต้ม</div>
             <!-- <p class="title" v-if="user.cust_member!=0">Email : {{member.cust_mail}}</p>
             <p class="title" v-if="user.cust_member!=0">แต้มสะสม : {{member.point}}</p> -->
             <div style="justify-content: flex-end; display:flex">
-            <button class="button is-warning" @click="editProfile()"><p>แก้ไขข้อมูลส่วนตัว</p></button>
-            <button class="button is-primary" v-if="user.cust_member==0" @click="addMember()">สมัครสมาชิก</button>
+              <button class="button is-info" @click="registerMember()"><p>สมัครสมาชิก</p></button>
+            <button class="button is-warning ml-4" @click="editProfile()"><p>แก้ไขข้อมูลส่วนตัว</p></button>
             </div>
-            <div v-if="addMemberToggle === true" class="media-content">
-                <div class="content mt-5">
-                <p class="title">Email: </p><input v-model="memberEmail" class="input" type="text" />
-            </div>
-            <div class="level-item">
-                <button @click="addMemberToggle = false" class="button is-info is-outlined">
-                    <span>Cancel</span>
-                    <span class="icon is-small">
-                    <i class="fas fa-times"></i>
-                    </span>
-                </button>
-                </div>
-        </div>
+            <p class="p1" v-if="registerMemberToggle">อีเมล์ : 
+              <input class="input ml-4 mr-4" style="width: 50%" v-model="email"/>
+              <button class="button is-success" @click="saveRegisterMember"><p>ยืนยัน</p></button>
+              <button class="button is-danger ml-4" @click="registerMemberToggle=false"><p>ยกเลิก</p></button>
+              </p>
           </div>
           <div class="column is-5-centered " v-if="editToggle === true">
         <div class="p1">ชื่อผู้ใช้งาน : {{user.cust_uname}}</div>
@@ -70,21 +62,7 @@
             <div style="justify-content: flex-end; display:flex">
             <button class="button is-success mr-4" @click="saveEditProfile(user.cust_id)"><p>ยืนยัน</p></button>
             <button class="button is-warning" @click="editToggle = false"><p>ยกเลิก</p></button>
-            <button class="button is-primary" v-if="user.cust_member==0" @click="addMember()">สมัครสมาชิก</button>
             </div>
-            <div v-if="addMemberToggle === true" class="media-content">
-                <div class="content mt-5">
-                <p class="title">Email: </p><input v-model="memberEmail" class="input" type="text" />
-            </div>
-            <div class="level-item">
-                <button @click="addMemberToggle = false" class="button is-info is-outlined">
-                    <span>Cancel</span>
-                    <span class="icon is-small">
-                    <i class="fas fa-times"></i>
-                    </span>
-                </button>
-                </div>
-        </div>
           </div>
           </div>
     </div>
@@ -139,12 +117,27 @@ export default {
       editPhone: "",
       editAddress: "",
       editPortal: "",
-      addMemberToggle: false,
-      memeberEmail: "",
-      email: ""
+      email: "",
+      registerMemberToggle: false,
     };
   },
   methods: {
+    registerMember (){
+      this.registerMemberToggle = true;
+    },
+    saveRegisterMember() {
+      console.log(this.user.cust_id);
+      axios
+        .post("http://localhost:3000/member", {
+          email: this.email,
+          user_id: this.user.cust_id
+        })
+        .then((response) => {
+          alert(response.data)
+        }).catch((error) => {
+            this.error = error.message;
+        });
+    },
     editProfile(){
       this.editToggle = true
       this.editFirstname = this.user.cust_fname

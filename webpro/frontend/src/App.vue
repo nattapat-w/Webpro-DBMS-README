@@ -60,12 +60,15 @@
         </div>
         <div class="navbar-end">
           <div v-if="user" class="navbar-item">
+            <router-link to="/order" class="button mr-5 is-info">
+              <strong>Show Order</strong>
+            </router-link>
             <router-link to="/checkout" class="button" style="background-color: #8FB0AA;color:black">
             <!-- Cart ({{this.cart.reduce((total, curr) => (total = total + (parseInt(curr.quantity))), 0)}}) -->
               <strong>Cart ({{this.cart.reduce((total, curr) => (total = total + (parseInt(curr.quantity))), 0)}})</strong>
             </router-link>
           </div>
-          <div v-if="user" class="navbar-item">
+          <div v-if="isAdmin()" class="navbar-item">
             <router-link to="/books/create" class="button is-warning">
               <strong>Add Book</strong>
             </router-link>
@@ -185,6 +188,15 @@ export default {
          this.user = res.data
        })
      },
+     isAdmin (){
+       if(!this.user) return false
+       if (this.user.role === 'admin'){
+         return true
+       }
+       else{
+         return false
+       }
+     }
    },
 }
 </script>

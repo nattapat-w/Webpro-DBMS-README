@@ -22,8 +22,7 @@
         <p class="title">ราคา : {{ book.book_price }} บาท</p>
         <p class="title">สินค้าคงเหลือ : {{ book.book_amount }} เล่ม</p>
         <p class="title">หมวดหมู่ : {{ book.type_name }}</p>
-        <p class="title">{{cartAmount}}</p>
-        <div class="button is-medium mt-3" @click="addToCart(book)" style="background-color: #8FB0AA;color:black">
+        <div class="button is-medium mt-3 ml-4 mb-6"  @click="addToCart(book)" style="background-color: #8FB0AA;color:black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -37,9 +36,9 @@
             12h-12.597l.839 2h13.239l3.474-12h1.929l.743-2h-4.195z"
             />
           </svg>
-          สั่งซื้อสินค้า
+          สั่งซื้อสินค้า 
         </div>
-        <div class="button is-medium mt-3 ml-4 mb-6 is-danger" @click="editBook()">
+        <div class="button is-medium mt-3 ml-4 mb-6 is-danger" v-if="isAdmin()" @click="editBook()">
           แก้ไขข้อมูลหนังสือ
         </div>
         </div>
@@ -101,7 +100,7 @@ img {
 import axios from "@/plugins/axios";
 
 export default {
-  props: ['cart'],
+  props: ['cart', 'user'],
   data() {
     return {
       book: {},
@@ -109,16 +108,11 @@ export default {
       editToggle: false,
       editBookTitle: "",
       editBookPrice: "",
-      editBookAmount: ""
+      editBookAmount: "",
     };
   },
   mounted() {
     this.getBookDetail(this.$route.params.id);
-  },
-  computed: {
-    cartAmount() {
-      return this.book.quantity
-    }
   },
   methods: {
     editBook() {
@@ -132,6 +126,7 @@ export default {
         .get(`http://localhost:3000/books/detail/${bookId}`)
         .then((response) => {
           this.book = response.data.book;
+          this.$set(this.book, "quantity", 0);
         })
         .catch((error) => {
           this.error = error.response.data.message;
@@ -155,14 +150,30 @@ export default {
         });
     },
     addToCart(book) {
-      if(book.quantity === undefined){
-      book.quantity = 1
-      this.cart.push(book)
+      if(!this.user){
+        alert('กรุณาเข้าสู่ระบบก่อนทำการซื้อสินค้า')
+      }
+      var findProduct = this.cart.find(o => o.book_id === book.book_id)
+      // console.log(findProduct);
+      if(findProduct){
+        findProduct.quantity += 1
+      // this.book.quantity = 1
+      // this.cart.push(book)
       }
       else{
         this.book.quantity += 1
+        this.cart.push(book)
       }
     },
+    isAdmin(){
+       if(!this.user) return false
+       if (this.user.role === 'admin'){
+         return true
+       }
+       else{
+         return false
+       }
+      }
   },
 };
 </script>

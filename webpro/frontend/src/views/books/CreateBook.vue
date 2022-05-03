@@ -15,7 +15,7 @@
       </div>
     </section>
      <div class="columns is-centered">
-    <div class="card mb-6 pl-3 pr-3 pt-2 pb-4" style="width:350px">
+    <div class="card mb-6 pl-3 pr-3 pt-2 pb-4" style="width:50%">
       <input
         class="mb-5"
         multiple
@@ -25,7 +25,7 @@
       />
 
       <div v-if="images" class="columns is-multiline">
-        <div v-for="(image, index) in images" :key="image.id" class="column is-one-quarter">
+        <div v-for="(image, index) in images" :key="image.id" class="column">
           <div class="card">
             <div class="card-image">
               <figure class="image is-4by3">
@@ -61,9 +61,19 @@
       <div class="label">เลือกหมวดหมู่</div>
       <div class="control">
         <div class="select">
-          <select>
-            <option>สยองขวัญ</option>
+          <select v-model="bookType">
+            <option value="0">เลือกหมวดหมู่</option>
+            <option value="1">สยองขวัญ</option>
+            <option value="2">นิยาย</option>
+            <option value="3">การ์ตูน</option>
+            <option value="4">การศึกษา</option>
+            <option value="5">ท่องเที่ยว</option>
+            <option value="6">ประวัติศาสตร์</option>
+            <option value="7">สุขภาพ</option>
+            <option value="8">จิตวิทยา</option>
+            <option value="9">ธุรกิจ</option>
           </select>
+          
         </div>
       </div>
     </div>
@@ -100,11 +110,14 @@ export default {
       bookTitle: "",
       bookPrice: "",
       bookAmount: "",
+      bookType: 0,
     };
   },
   methods: {
     selectImages(event) {
       this.images = event.target.files;
+      console.log(this.images);
+      console.log(this.images[0]);
     },
     showSelectImage(image) {
       // for preview only
@@ -115,16 +128,48 @@ export default {
       this.images = Array.from(this.images);
       this.images.splice(index, 1);
     },
-    submitBlog() {
-      let formData = new FormData();
-      formData.append("title", this.titleBlog);
-      formData.append("content", this.contentBlog);
-      formData.append("pinned", this.pinnedBlog ? 1 : 0);
-      formData.append("status", "01");
-      this.images.forEach((image) => {
-        formData.append("myImage", image);
+    submitBook (){
+      if(this.bookType === 0){
+        alert('กรุณาเลือกหมวดหมู๋')
       }
-      );
+      else if(this.bookTitle === "" || this.bookPrice === "" || this.bookAmount === ""){
+        alert('กรุณากรอกข้อมูลให้ครบทุกช่อง')
+      }
+      else{
+        let formData = new FormData();
+        formData.append("book_title", this.bookTitle);
+        formData.append("book_price", this.bookPrice);
+        formData.append("book_amount", this.bookAmount);
+        formData.append("book_type", this.bookType);
+         this.images.forEach((image) => {
+        formData.append("book_cover", image);
+      });
+      axios
+        .post("http://localhost:3000/book", formData)
+        .then((response) => {
+          alert(response.data)
+        }).catch((error) => {
+            this.error = error.message;
+        });
+     }
+    },
+  }
+  };
+    // submitBlog() {
+    //   let formData = new FormData();
+    //   formData.append("title", this.titleBlog);
+    //   formData.append("content", this.contentBlog);
+    //   formData.append("pinned", this.pinnedBlog ? 1 : 0);
+    //   formData.append("status", "01");
+    //   this.images.forEach((image) => {
+    //     formData.append("myImage", image);
+    //   }
+    //   );
+    //   axios
+    //     .post("http://localhost:3000/blogs", formData)
+    //     .then((res) => this.$router.push({name: 'home'}))
+    //     .catch((e) => console.log(e.response.data));
+    // },
 
       // Note ***************
       // ตอนเรายิง Postmant จะใช้ fromData
@@ -139,12 +184,4 @@ export default {
 
       // จะสังเกตุว่าใช้ myImage เป็น key เดียวกัน เลยต้องเอามา loop forEach
       // พอไปฝั่ง backend มันจะจัด file ให้เป็น Array เพื่อเอาไปใช้งานต่อได้
-
-      axios
-        .post("http://localhost:3000/blogs", formData)
-        .then((res) => this.$router.push({name: 'home'}))
-        .catch((e) => console.log(e.response.data));
-    },
-  },
-};
 </script>

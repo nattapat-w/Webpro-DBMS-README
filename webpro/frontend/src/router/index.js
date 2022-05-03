@@ -43,6 +43,12 @@ const routes = [
     meta: { login: true },
     component: () => import('../views/books/CreateBook.vue')
   },
+  {
+    path: '/order',
+    name: 'order',
+    meta: { login: true },
+    component: () => import('../views/Order.vue')
+  },
 ]
 
 const router = new VueRouter({ routes })

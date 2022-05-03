@@ -198,28 +198,67 @@ export default {
   props: ["cart", "user"],
   data() {
     return {
+      orderID: [],
       paymentMethod: "",
       tableToggle: false,
     };
   },
   mounted() {},
   methods: {
-    confirmOrder() {
+    async confirmOrder() {
       if (confirm("ยืนยันคำสั่งซื้อ ?") === true) {
         this.tableToggle = true;
         let cart_amount = this.cart.reduce((total, curr) => (total = total + (parseInt(curr.quantity))), 0);
         let cart_price = this.cart.reduce((total, curr) => (total = total + (parseFloat(curr.book_price*curr.quantity))), 0);
         let user_id = this.user.cust_id;
-        axios
+        await axios //insert into order
           .post("http://localhost:3000/order", {
             order_amount: cart_amount,
             order_price: cart_price,
             customer_cust_id: user_id,
+          }).then((response) => {
+            this.orderID = response.data;
+          })
+          .catch((error) => {
+            this.error = error.message;
+          });
+        console.log(this.orderID);
+        for(let i=0; i<this.cart.length; i++){
+          const book = this.cart[i];
+          const bookId = book.book_id;
+        axios
+          .put(`http://localhost:3000/books/order/${bookId}`, {
+            book_quantity: book.book_amount-book.quantity,
+          }).then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            this.error = error.message;
+          });
+         axios
+          .post(`http://localhost:3000/order/item`, {
+            order_id: this.orderID,
+            item_quantity: book.quantity,
+            item_amount: book.quantity*book.book_price,
+            item_price: book.book_price,
+            book_id: book.book_id
           }).then(() => {
           })
           .catch((error) => {
             this.error = error.message;
           });
+          }
+          
+      }
+        // axios // get order_id
+        //   .get(`http://localhost:3000/order/${user_id}`, {
+        //   }).then((response) => {
+        //     console.log(response);
+        //   })
+        //   .catch((error) => {
+        //     this.error = error.message;
+        //   });
+
         //  axios
         //   .post(`http://localhost:3000/order/${bookId}`, {
         //     book_quantity: book.book_amount-book.quantity,
@@ -229,33 +268,6 @@ export default {
         //   .catch((error) => {
         //     this.error = error.message;
         //   });
-
-        for(let i=0; i<this.cart.length; i++){
-          const book = this.cart[i];
-          const bookId = book.book_id;
-        axios
-          .put(`http://localhost:3000/books/order/${bookId}`, {
-            book_quantity: book.book_amount-book.quantity,
-          }).then(() => {
-            alert("สั่งซื้อสำเร็จ")
-          })
-          .catch((error) => {
-            this.error = error.message;
-          });
-        //  axios
-        //   .post(`http://localhost:3000/order/item/${bookId}`, {
-        //     item_quantity : book.quantity,
-        //     item_amount: book.quantity*book.book_price,
-        //     item_price: book.book_price
-        //   }).then(() => {
-        //     alert("สั่งซื้อสำเร็จ")
-        //   })
-        //   .catch((error) => {
-        //     this.error = error.message;
-        //   });
-          }
-          
-      }
     },
     isCredit() {
       this.credit = true;
