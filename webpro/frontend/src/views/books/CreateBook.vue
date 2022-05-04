@@ -147,11 +147,12 @@ export default {
       axios
         .post("http://localhost:3000/book", formData)
         .then((response) => {
-          alert(response.data)
         }).catch((error) => {
             this.error = error.message;
         });
+        
      }
+     window.location.href = "/"
     },
   }
   };

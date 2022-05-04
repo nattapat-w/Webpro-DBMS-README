@@ -17,6 +17,17 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage})
 
+router.delete('/books/:bookId', isLoggedIn, async function (req, res, next) {
+  try {
+      const [rows1, fields1] = await pool.query(
+          'DELETE FROM `book` WHERE `book_id` = ?', 
+          [req.params.bookId]
+      )
+  } catch (error) {
+      res.status(500).json(error)
+  }
+});
+
 router.put('/books/:bookId', isLoggedIn, async function (req, res, next) {
   try {
       const [rows1, fields1] = await pool.query(
@@ -59,7 +70,6 @@ router.post("/book", upload.array('book_cover', 5), isLoggedIn, async function (
       "VALUES(?, ?, ?, ?, ?);",
       [req.body.book_title, req.body.book_price, req.body.book_amount, req.body.book_type, pathArray]
     );
-    res.send("success!");
   } catch (err) {
       return res.status(400).json(err);
   }

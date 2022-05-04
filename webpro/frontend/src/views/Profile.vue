@@ -26,7 +26,7 @@
             <!-- <p class="title" v-if="user.cust_member!=0">Email : {{member.cust_mail}}</p>
             <p class="title" v-if="user.cust_member!=0">แต้มสะสม : {{member.point}}</p> -->
             <div style="justify-content: flex-end; display:flex">
-              <button class="button is-info" @click="registerMember()"><p>สมัครสมาชิก</p></button>
+              <button class="button is-info" v-if="user.member===1" @click="registerMember()"><p>สมัครสมาชิก</p></button>
             <button class="button is-warning ml-4" @click="editProfile()"><p>แก้ไขข้อมูลส่วนตัว</p></button>
             </div>
             <p class="p1" v-if="registerMemberToggle">อีเมล์ : 

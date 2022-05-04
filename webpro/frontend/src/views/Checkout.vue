@@ -133,7 +133,13 @@
     </div>
     <div style="justify-content: flex-end; display: flex">
       <div
-        class="button is-info is-medium is-flex-justify-right"
+        class="button is-danger is-medium is-flex-justify-right"
+        @click="clearOrder()"
+      >
+        Clear
+      </div>
+      <div
+        class="button is-info ml-5 is-medium is-flex-justify-right"
         @click="confirmOrder()"
       >
         Confirm Order
@@ -205,6 +211,9 @@ export default {
   },
   mounted() {},
   methods: {
+    clearOrder(){
+      this.cart.splice(0, this.cart.length)
+    },
     async confirmOrder() {
       if (confirm("ยืนยันคำสั่งซื้อ ?") === true) {
         this.tableToggle = true;

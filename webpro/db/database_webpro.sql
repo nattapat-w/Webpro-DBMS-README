@@ -521,6 +521,7 @@ CREATE TABLE `tokens` (
   CONSTRAINT `token_FK` FOREIGN KEY (`user_id`) REFERENCES `customer` (`cust_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
         
-        
+ALTER TABLE `database_readme`.`customer` 
+ADD COLUMN `role` VARCHAR(10) NOT NULL DEFAULT 'normal' AFTER `cust_member`;
         
         

@@ -38,8 +38,11 @@
           </svg>
           สั่งซื้อสินค้า 
         </div>
-        <div class="button is-medium mt-3 ml-4 mb-6 is-danger" v-if="isAdmin()" @click="editBook()">
+        <div class="button is-medium mt-3 ml-4 mb-6 is-warning" v-if="isAdmin()" @click="editBook()">
           แก้ไขข้อมูลหนังสือ
+        </div>
+        <div class="button is-medium mt-3 ml-4 mb-6 is-danger" v-if="isAdmin()" @click="deleteBook(book.book_id)">
+          ลบหนังสือ
         </div>
         </div>
       </div>
@@ -115,6 +118,18 @@ export default {
     this.getBookDetail(this.$route.params.id);
   },
   methods: {
+    deleteBook(bookId){
+      if (confirm("ลบหนังสือเล่มนี้ ?") === true) {
+      axios
+        .delete(`http://localhost:3000/books/${bookId}`)
+        .then((response) => {
+        })
+        .catch((error) => {
+          this.error = error.message;
+        });
+        window.location.href = "/"
+      }
+    },
     editBook() {
       this.editToggle = true
       this.editBookTitle = this.book.book_title
